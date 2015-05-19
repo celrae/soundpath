@@ -1,12 +1,12 @@
-# What is Soundpath?
+# Soundpath
 Soundpath is a web application that provides road trip directions and creates a playlist of public media stories about the people and places along the route.    
 
 The idea was first presented as part of a ["Hack the Future of Journalism"](http://www.rjionline.org/hackathon2014/soundpath-final-presentation) hackathon at KQED in San Francisco.
 
 
-# This is a work in progress
+## This is a work in progress
 
-## Here's what we're working on at first:
+**Here's what we're working on at first:**
 
 1. Getting the route information. (DONE) 
 2. Identifying places and points of interest along the path. (IN PROCESS)
@@ -14,7 +14,7 @@ The idea was first presented as part of a ["Hack the Future of Journalism"](http
 3. Searching the Public Media Platform for related stories. (TBD)
 4. Building a playlist from PMP content. 
 
-## In the future we'd like to:
+**In the future we'd like to:**
 1. Allow users to save and edit playlists
 2. Improve matching between place and audio piece.
 * Better geographic information about stories in the PMP would let us expand use from road trip–scale distances to daily commuters and urban tourists. 
