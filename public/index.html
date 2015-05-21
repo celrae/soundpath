@@ -141,7 +141,7 @@ function findPlaces(searchIndex) {
         if (searchIndex < boxes.length) {
           findPlaces(searchIndex);
         } else {
-            $("#submit_button").attr('disabled', 'false');
+            $("#submit_button").removeAttr('disabled');
             $("#loading_img").hide();
             $("#status_span").html('search complete');
         }
