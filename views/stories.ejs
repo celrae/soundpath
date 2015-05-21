@@ -1,0 +1,4 @@
+<% list.forEach(function(obj) { %>
+	<a target="_blank" href="<%= obj.links.enclosure[0].href %>"><%= obj.attributes.title %></a><br />   
+	<!--<audio controls="" src="<%= obj.links.enclosure[0].href %>" type="<%= obj.links.enclosure[0].type %>" title="<%= obj.attributes.title %>"></audio> -->
+<% }); %>
