@@ -31,6 +31,11 @@ function initialize() {
     $("#loading_img").hide();
     $("#status_span").html();
 
+    $("#search_form").submit(function (event) {
+        event.preventDefault();
+        route();
+    });
+
   // Default the map view to the continental U.S.
   var mapOptions = {
     center: new google.maps.LatLng(40,-80.5),
@@ -239,12 +244,12 @@ function findStories(search, callback) {
 </style>
 </head>
 <body onload="initialize();" style="padding: 20px;">
-    <form>
+    <form id="search_form">
         <p>
             Box within at least <input type="text" id="distance" value="10" size="2"> miles
             of the route from <input type="text" id="from" value="boston" />
             to <input type="text" id="to" value="new york" />
-            <input id="submit_button" type="submit" onclick="route()" />
+            <input id="submit_button" type="submit" />
             &nbsp;<br>
         </p>
     </form>
