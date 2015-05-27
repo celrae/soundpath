@@ -17,4 +17,18 @@ router.get('/search', function(req, res, next) {
     });
 });
 
+/* GET home page. */
+router.post('/testsearch', function (req, res, next) {
+    var query = req.body;
+    
+    pmp.testSearch(query, function (err, result) {
+        if (!result) {
+            return res.json({});
+        }
+        
+        //return res.render('stories', { list: results });
+        return res.json(result);
+    });
+});
+
 module.exports = router;

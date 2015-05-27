@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>Google Maps JavaScript API v3 Example: Map Simple</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" charset="utf-8">
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+        <link href="css/style.css" rel="stylesheet">
+        <link href="css/json-viewer.css" rel="stylesheet">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+        <script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/routeboxer/src/RouteBoxer.js" type="text/javascript"></script>
+        <script type="text/javascript" src="js/async.js"></script>
+        <script type="text/javascript" src="js/json-viewer.js"></script>
+        <script src="js/test.js" type="text/javascript"></script>
+
+</head>
+<body onload="initialize();" style="padding: 20px;">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left half of screen -->
+            <div class="col-sm-6">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="from" placeholder="From" value="boston">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="to" placeholder="To" value="new york">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="distance" placeholder="20" value="20">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="filter" placeholder="city_hall,filter_2" value="city_hall">
+                            </div>
+                            <button type="button" id="search_button" class="btn btn-default">Get Route</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="map" style="width: 100%; height: 500px;"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="mapTree"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- right half of screen -->
+            <div class="col-sm-6">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div style="height: 50px; margin-bottom: 10px;"><span id="status_span"></span><img id="loading_img" src="/images/loading.gif" alt="loading" height="40" style="margin-left: 20px;" /></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="col-sm-12">
+                            <form class="form">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="pmpprofile" placeholder="audio" value="audio">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="pmpquery" placeholder="" value="">
+                                </div>
+                                <button type="button" id="query_button" class="btn btn-default">Search PMP</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="pmpTree"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -19,5 +19,19 @@ module.exports = {
             }
             return callback(null, doc.items);
         });
+    },
+
+    testSearch: function (query, callback) {
+        //"('penmanship' OR 'term2')"
+        sdk.queryDocs(query, function (doc, resp) {
+            
+            console.log(resp.status);          // 200
+            console.log(resp.success);         // true
+            
+            if (resp.status === 404) {
+                return callback(null);
+            }
+            return callback(null, doc);
+        });
     }
 }
