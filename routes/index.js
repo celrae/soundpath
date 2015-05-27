@@ -27,7 +27,18 @@ router.post('/testsearch', function (req, res, next) {
         }
         
         //return res.render('stories', { list: results });
-        return res.json(result);
+        var results = [];
+        result.items.forEach(function (item) {
+            var obj = {};
+            for (var prop in item) {
+                if (prop.indexOf('_') > -1) {
+                    continue;
+                }
+                obj[prop] = item[prop];
+            }
+            results.push(obj);
+        });
+        return res.json({ items: results });
     });
 });
 

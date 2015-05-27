@@ -8,6 +8,7 @@ var service = null;
 var gmarkers = [];
 var boxes = null;
 var towns = [];
+var terms = [];
 var infowindow = new google.maps.InfoWindow();
 
 mapResults = [];
@@ -71,7 +72,7 @@ function route() {
 
             // alert(boxes.length);
             drawBoxes();
-            towns = [];
+            terms = [];
             $("#loading_img").show();
             
             async.each(boxes, function (box, callback) {
@@ -140,6 +141,13 @@ function findPlaces(callback) {
             result.parent = box.id;
             result.text = result.name;
             
+            result.name.split(' ').forEach(function (part) { 
+                part = part.toLowerCase();
+                if (!terms[part]) {
+                    terms[part] = part;
+                }
+            });
+            
             getAddress(result, function (err, place) {
                 if (!err) {
                     box.places[result.text] = place;
@@ -171,8 +179,8 @@ function getAddress(place, callback) {
                     for (var j = 0; j < place.address_components[i].types.length; j++) {
                         if (place.address_components[i].types[j] == "locality") {
                             place.town = place.address_components[i].long_name;
-                            if (!towns[place.address_components[i].long_name]) {
-                                towns[place.town] = place.town;
+                            if (!terms[place.address_components[i].long_name.toLowerCase()]) {
+                                terms[place.town.toLowerCase()] = place.town.toLowerCase();
                             }
                         }
                     }
@@ -187,13 +195,19 @@ function getAddress(place, callback) {
 }
 
 function populatePMPQuery() {
-    var keys = Object.keys(towns);
+    var filters = $("#pmpfilters").val().replace(' ', '').split(',');
+
+    var keys = Object.keys(terms);
     query.text = '';
-    keys.forEach(function (town, index) {
+    keys.forEach(function (term, index) {
+        if (filters.indexOf(term) > -1) {
+            return;
+        }
+
         if (index > 0) {
             query.text += ' OR ';
         }
-        query.text += "'" + town.toLowerCase() + "'";
+        query.text += "'" + term.toLowerCase() + "'";
     });
 
     $("#pmpquery").val(query.text);
