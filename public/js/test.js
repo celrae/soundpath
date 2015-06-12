@@ -263,13 +263,14 @@ function searchPMP() {
     query.profile = $("#pmpprofile").val();
     query.text = $("#pmpquery").val();
     query.limit = $("#pmplimit").val();
+    query.has = "audio";
     //query.searchsort = 'relevance ';
     $("#pmpTree").html("");
 
     jQuery.post('/testsearch', query, function success(data) {
         $("#pmpTree").html(data + "</br>");
         //$("#pmpTree").jsonViewer(data);
-    },'html').fail(function () {
-        alert('error');
-    });;
+    },'html').fail(function (e) {
+        alert('e');
+    });
 }

@@ -38,7 +38,15 @@ router.post('/testsearch', function (req, res, next) {
         //    }
         //    results.push(obj);
         //});
-        return res.render('stories', { list: results });
+        
+        var resp = "<hr>";
+        results.forEach(function (item) { 
+
+            resp += "<a href='" + item.links.alternate[0].href + "'>" + item.attributes.title + "</a></br>";
+        });
+        
+        return res.send(resp);
+       //return res.render('stories', { list: results });
        //return res.json({ items: results });
     });
 });
