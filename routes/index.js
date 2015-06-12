@@ -21,24 +21,25 @@ router.get('/search', function(req, res, next) {
 router.post('/testsearch', function (req, res, next) {
     var query = req.body;
     
-    pmp.testSearch(query, function (err, result) {
-        if (!result) {
+    pmp.testSearch(query, function (err, results) {
+        if (!results) {
             return res.json({});
         }
         
         //return res.render('stories', { list: results });
-        var results = [];
-        result.items.forEach(function (item) {
-            var obj = {};
-            for (var prop in item) {
-                if (prop.indexOf('_') > -1) {
-                    continue;
-                }
-                obj[prop] = item[prop];
-            }
-            results.push(obj);
-        });
-        return res.json({ items: results });
+        //var results = [];
+        //result.items.forEach(function (item) {
+        //    var obj = {};
+        //    for (var prop in item) {
+        //        if (prop.indexOf('_') > -1) {
+        //            continue;
+        //        }
+        //        obj[prop] = item[prop];
+        //    }
+        //    results.push(obj);
+        //});
+        return res.render('stories', { list: results });
+       //return res.json({ items: results });
     });
 });
 

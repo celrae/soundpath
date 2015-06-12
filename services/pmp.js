@@ -31,7 +31,7 @@ module.exports = {
             if (resp.status === 404) {
                 return callback(null);
             }
-            return callback(null, doc);
+            return callback(null, doc.items);
         });
     }
 }
