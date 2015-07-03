@@ -7,9 +7,11 @@ var bodyParser = require('body-parser');
 var debug = require('debug')('soundpath:server');
 var http = require('http');
 
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var playlist = require('./routes/playlist');
+var download = require('./routes/download');
 
 var app = express();
 
@@ -23,9 +25,11 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use('/download', download);
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
+app.use('/download', download);
 app.use('/users', users);
 app.use('/playlist', playlist);
 

@@ -39,10 +39,22 @@ router.post('/testsearch', function (req, res, next) {
         //    results.push(obj);
         //});
         
-        var resp = "<hr>";
-        results.forEach(function (item) { 
+        var csv = 'title,created,link,duration\r\n';
 
-            resp += "<a href='" + item.links.alternate[0].href + "'>" + item.attributes.title + "</a></br>";
+        
+        var resp = "</br><b>title&nbsp;created&nbsp;duration&nbsp;link</b><hr>";
+        results.forEach(function (item) {
+            resp += item.attributes.title + '&nbsp;' + item.attributes.created + '&nbsp;';
+            item.items.forEach(function (subitem) {
+                if (subitem.links && subitem.links.enclosure 
+                    && subitem.links.enclosure[0] 
+                    && subitem.links.enclosure[0].type 
+                    && subitem.links.enclosure[0].type === "audio/m3u") {
+                        resp += '&nbsp;' + subitem.links.enclosure[0].meta.duration + "&nbsp;<a href='" + item.links.alternate[0].href + "'>" + item.attributes.title + "</a>";
+                }
+            });
+
+            resp += "</br>";
         });
         
         return res.send(resp);
@@ -50,5 +62,6 @@ router.post('/testsearch', function (req, res, next) {
        //return res.json({ items: results });
     });
 });
+
 
 module.exports = router;

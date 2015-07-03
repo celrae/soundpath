@@ -266,11 +266,19 @@ function searchPMP() {
     query.has = "audio";
     //query.searchsort = 'relevance ';
     $("#pmpTree").html("");
+    $("#download_button").hide();
+    
+    update_download();
 
     jQuery.post('/testsearch', query, function success(data) {
         $("#pmpTree").html(data + "</br>");
+        $("#download_button").show();
         //$("#pmpTree").jsonViewer(data);
     },'html').fail(function (e) {
         alert('e');
     });
 }
+
+function update_download() {
+    $("#download_button").attr("href",'/download/' +moment().format('MM_DD_YYYY_HHmmA') + '.csv?profile=' + $("#pmpprofile").val() + '&text' + $("#pmpquery").val() + '&limit=' + $("#pmplimit").val() + '&has=audio');
+};
