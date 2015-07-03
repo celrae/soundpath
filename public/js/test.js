@@ -280,5 +280,5 @@ function searchPMP() {
 }
 
 function update_download() {
-    $("#download_button").attr("href",'/download/' +moment().format('MM_DD_YYYY_HHmmA') + '.csv?profile=' + $("#pmpprofile").val() + '&text' + $("#pmpquery").val() + '&limit=' + $("#pmplimit").val() + '&has=audio');
+    $("#download_button").attr("href",'/download/' +moment().format('MM_DD_YYYY_HHmmA') + '.csv?profile=' + $("#pmpprofile").val() + '&text=' + $("#pmpquery").val() + '&limit=' + $("#pmplimit").val() + '&has=audio');
 };
