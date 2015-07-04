@@ -61,7 +61,6 @@ function update() {
     var errors = 0;
     
     d3.select("#results").selectAll('div').remove();
-    d3.select("#results").append('div').html('<img src="/images/loading.gif" alt="loading" />');
     
     if (mode == "search") {
         var share = '<a target="_blank" href="http://';
@@ -81,18 +80,22 @@ function update() {
     
     $("#resultCount").html(data.length + ' results' + (errors > 0 ? ', errors: ' + errors : ''));
     
-    var div = d3.select("#results").selectAll('div')
-	.data(data)
-	.enter().append('div')
-	.attr('class', 'course');
+    // var div = d3.select("#results").selectAll('div')
+	// .data(data)
+	// .enter().append('div')
+	// .attr('class', 'course');
     
-    div.append('div').append('h3').html(function (d) {
+    var html = "";
+    
+    data.forEach(function(d) {
         
-        return (d.document ? d.document.title : '');
-    });
-
-    div.append('div').html(function (d) {
-        var data = (d.document.contentencoded ? d.document.contentencoded : d.document.title);
+        d = d.document ? d.document : d;
+        d.id = d.id ? d.id : d.guid;
+        
+        html += '<div class="course">';
+        html += '<h3>' + (d.title ? d.title : '') + '</h3>';
+        
+        html += (d.contentencoded ? d.contentencoded : '');
         
         var link = '<a href="#" onclick="javascript: saveClass(\'' + d.id.trim() + '\',this);"><i class="glyphicon glyphicon-plus"></i> add to cart</a>';
         if (myList && myList[d.id]) {
@@ -101,61 +104,64 @@ function update() {
         
         var share = '<a target="_blank" href="http://' + window.location.host + '?id=' + d.id + '"><i class="glyphicon glyphicon-share"></i> share</a>';
         
-        var resp = '<b>Audio</b></br><table cellspacing="5"><th><tr><td>duration (secs) </td><td>link</td></tr></th><tbody>';
-        
-        d.document.audio.forEach(function (subitem) {
-            if (subitem.href) {
-                resp += '<tr><td>' + ((subitem.meta && subitem.meta.duration) ? subitem.meta.duration : '') 
-                        + "</td><td><a href='" + subitem.href + "'>Play</a></td></tr>";
-            }
-        });
-        
-        resp += "</tbody></table>";
-        
-        return (data + '<hr>' + resp + '<br />' + link + '<br />' + share + '<br />');
 
+        if(d.audio) {
+            var resp = '<b>Audio</b></br><table cellspacing="5"><th><tr><td>duration (secs) </td><td>link</td></tr></th><tbody>';
+        
+            d.audio.forEach(function (subitem) {
+                if (subitem.href) {
+                    resp += '<tr><td>' + ((subitem.meta && subitem.meta.duration) ? subitem.meta.duration : '')
+                            + "</td><td><a href='" + subitem.href + "'>Play</a></td></tr>";
+                }
+            });
+     
+            resp += "</tbody></table>";
+            
+            html += resp;
+        }
+
+        
+        html += ('<br />' + link + '<br />' + share + '<br />');
+        html += '</div>';
     });
-
     
-    //div.html(function (d) {
-    //    if (!d.document) {
-    //        return;
-    //    }
-        
-    //    //var content = '<div class="pull-left"><h3>' + (d.document ? d.document.title : '') + '</h3></div>'
-
-    //    var left = '<h3>' + (d.document ? d.document.title : '') 
-    //                    + '</h3></br>' + +moment(d.document.published).format("YYYY-MM-DD HH:mm:ssZ") + '</br>' 
-    //                    + d.document.contentencoded ? d.document.contentencoded : d.document.title;
+    $("#results").html(html);
     
-    //    var resp = '<b>Audio Links</b></br><table cellspacing="5"><th><tr><td>duration (secs) </td><td>link</td></tr></th><tbody>';
+    // div.append('div').append('h3').html(function (d) {
+    //     
+    //     return (d.document ? d.document.title : '');
+    // });
 
-    //    d.document.audio.forEach(function (subitem) {
-    //        if (subitem.href) {
-    //            resp += '<tr><td>' + ((subitem.meta && subitem.meta.duration) ? subitem.meta.duration : '')
-    //                    + "</td><td><a href='" + subitem.href + "'>Play</a></td></tr>";
-    //        }
-    //    });
-        
-    //    resp += "</tbody></table>";
+//     div.append('div').html(function (d) {
+//         var data = (d.document.contentencoded ? d.document.contentencoded : d.document.title);
+//         
+//         var link = '<a href="#" onclick="javascript: saveClass(\'' + d.id.trim() + '\',this);"><i class="glyphicon glyphicon-plus"></i> add to cart</a>';
+//         if (myList && myList[d.id]) {
+//             link = '<a href="#" onclick="javascript: removeClass(\'' + d.id.trim() + '\',this);"><i class="glyphicon glyphicon-minus"></i> remove from cart</a>';
+//         }
+//         
+//         var share = '<a target="_blank" href="http://' + window.location.host + '?id=' + d.id + '"><i class="glyphicon glyphicon-share"></i> share</a>';
+//         
+//         var resp = '<b>Audio</b></br><table cellspacing="5"><th><tr><td>duration (secs) </td><td>link</td></tr></th><tbody>';
+//         
+//         d.document.audio.forEach(function (subitem) {
+//             if (subitem.href) {
+//                 resp += '<tr><td>' + ((subitem.meta && subitem.meta.duration) ? subitem.meta.duration : '') 
+//                         + "</td><td><a href='" + subitem.href + "'>Play</a></td></tr>";
+//             }
+//         });
+//         
+//         resp += "</tbody></table>";
+//         
+//         return (data + '<hr>' + resp + '<br />' + link + '<br />' + share + '<br />');
+// 
+//     });
 
-    //    var link = '<a href="#" onclick="javascript: saveClass(\'' + d.id.trim() + '\',this);"><i class="glyphicon glyphicon-plus"></i> add to cart</a>';
-    //    if (myList && myList[d.id]) {
-    //        link = '<a href="#" onclick="javascript: removeClass(\'' + d.id.trim() + '\',this);"><i class="glyphicon glyphicon-minus"></i> remove from cart</a>';
-    //    }
-        
-    //    var share = '<a target="_blank" href="http://' + window.location.host + '?id=' + d.id + '"><i class="glyphicon glyphicon-share"></i> share</a>';
-        
-    //    resp += '<br />' + link + '<br />' + share + '<br />';
-        
-    //    return left + resp;
-        
-    //    //return content;
-    //});
-    
-    
+
     
     highlight();
+
+    jQuery('html,body').animate({ scrollTop: 0 }, 0);
 }
 
 function saveClass(id, elem) {

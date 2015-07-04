@@ -302,7 +302,7 @@ FulltextFile.prototype.readall = function(id, count, callback) {
 			return;
 		}
 
-		if (typeof(first) === UNDEFINED) {
+        if (typeof (first) === UNDEFINED) {
 			callback(count, output);
 			return;
 		}
@@ -476,9 +476,9 @@ FulltextFile.prototype.find = function(search, options, callback) {
 				self.cacheAdd(search, options, []);
 				callback(0, []);
 				return;
-			}
+            }
 
-			arr.sort(function(a, b) {
+            arr.sort(function (a, b) {
 				var ra = rating[a];
 				var rb = rating[b];
 				if (ra > rb)
@@ -488,7 +488,7 @@ FulltextFile.prototype.find = function(search, options, callback) {
 				return 0;
 			});
 
-			self.cacheAdd(search, options, arr);
+			//self.cacheAdd(search, options, arr);
 			self.readall(arr.slice(skip, skip + take), arr.length, callback);
 
 		});
@@ -651,7 +651,7 @@ if (!String.prototype.trim) {
 
 function find_keywords(content, alternative, count, max, min) {
 
-	min = min || 3;
+	min = min || 2;
 	count = count || 200;
 	max = max || 20;
 
