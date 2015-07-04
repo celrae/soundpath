@@ -6,12 +6,15 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var debug = require('debug')('soundpath:server');
 var http = require('http');
+global.fulltext = require('./services/fulltext.js');
+global.search = fulltext.load('pmp', 'search');
 
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var playlist = require('./routes/playlist');
 var download = require('./routes/download');
+var routes = require('./routes/find');
 
 var app = express();
 

@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>soundpath</title>
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/css/bootstyle.css" />
+    <link rel="stylesheet" type="text/css" href="/css/offcanvas.css" />
+
+    <!-- libs -->
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+    <script src='//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js'></script>
+    <script src='/js/d3.min.js'></script>
+    <script src='/js/hilitor.js'></script>
+
+    <!-- app -->
+    <script src='/js/search.js'></script>
+
+    <script>
+			var searchInterval = null;
+			var myHilitor;
+			var results = [];
+			$(document).ready(function () {
+				loadList();
+
+				$('[data-toggle="offcanvas"]').click(function () {
+					$('.row-offcanvas').toggleClass('active');
+				});
+
+				$("#keywords").focus();
+
+				$("#keywords").on('keypress', function(e){
+					clearInterval(searchInterval);
+
+					if(e.keyCode == 13) {
+						search();
+					} else {
+						searchInterval = setTimeout(function() { search(); }, 2000);
+					}
+				});
+
+				$("input[type=checkbox]").on('click', function() {
+					update();
+					if($("#navButton").is(":visible")) {
+						$("#navButton").click();
+					}
+				});
+
+				if(QueryString.id) {
+					getId(QueryString.id);
+				}
+				else if(QueryString.keywords) {
+					$("#keywords").val(QueryString.keywords);
+					search();
+				}
+			});
+
+    </script>
+</head>
+<body>
+    <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container">
+            <div style="position: absolute; left: 10px; top: 5px; font-size: 3em">soundpath</div>
+            <div class="navbar-header">
+                <button type="button" id="navButton" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <input id="keywords" type="text" class="input-lg" style="width: 300px" placeholder="search" />
+                <a class="navbar-link" id="myListLink" href="list.html"><span class="glyphicon glyphicon-shopping-cart"></span></a>
+                <a class="navbar-link" id="myListLink" href="calendar.html"><span class="glyphicon glyphicon-calendar"></span></a>
+                <a class="hidden-xs navbar-link" id="myListLink" href="map.html"><span class="glyphicon glyphicon-map-marker"></span></a>
+            </div>
+        </div><!-- /.container -->
+    </div><!-- /.navbar -->
+    <div id="container" class="searchResults">
+        <div class="row row-offcanvas row-offcanvas-right">
+            <div class="col-sm-12 col-xs-12">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <span id="resultCount"></span><span id="status"></span>
+                        <span id="filter"></span>
+                    </div>
+                </div><!--/row-->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="results" class="results"></div>
+                    </div><!--/span-->
+                </div><!--/row-->
+            </div><!--/span-->
+        </div><!--/row-->
+    </div>
+</body>
+</html>	

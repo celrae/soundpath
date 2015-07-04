@@ -1,0 +1,87 @@
+html {
+  height: 100%;
+}
+body {
+  margin: 0;		  
+  overflow-x: hidden;
+  height: 100%;    
+  font-family: 'Open Sans', 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font: 400 14px/1.6 "Open Sans", sans-serif;
+  color: #666;
+}
+
+.course {
+	box-shadow: 0 0 8px rgba(0,0,0,0.2);
+	padding: 10px;
+    margin-bottom: 10px;
+}
+
+.results {
+    text-wrap: normal;
+	margin: 20px 20px;		
+}
+
+.navbar-header a {
+  color: white;
+  line-height: 20px;
+}
+
+.navbar-inverse {
+  background-color: #8a1823;
+  color: white;
+}
+
+.navbar-inverse .navbar-link {
+	color: white;
+	margin: 0 5px;
+}
+
+.navbar-inverse .navbar-toggle {
+  color: #CCC;
+  border-color: #CCC;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+  color: white;
+  margin: 20px;
+  padding: 0px;
+}
+
+#keywords:hover {
+	cursor: pointer;
+}
+
+.searchResults {
+	margin: 20px 20px;
+}
+
+
+#resultCount {
+	margin: 20px 20px;
+}
+
+#keywords {
+	width: auto;
+	margin: 15px;
+	color: black;
+}
+
+input[type=checkbox] {
+	margin: 20px 5px 20px 15px;
+	padding: 0;
+	line-height: 20px;
+	vertical-align: middle;
+}
+
+#filter {
+	margin-left: 20px;
+}
+	
+span.glyphicon {
+	font-size: 24px;
+	margin: 15px 0;
+}
+
+i.glyphicon {
+	font-size: 12px;
+}

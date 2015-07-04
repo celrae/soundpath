@@ -1,4 +1,6 @@
 ﻿var PmpSdk = require('pmpsdk');
+var moment = require('moment-timezone');
+var fs = require('fs');
 
 var sdk = new PmpSdk({ client_id: process.env.PMP_ID, client_secret: process.env.PMP_SECRET, host: 'https://api.pmp.io' });
 
@@ -24,7 +26,7 @@ module.exports = {
     testSearch: function (query, callback) {
         //"('penmanship' OR 'term2')"
         sdk.queryDocs(query, function (doc, resp) {
-            
+
             console.log(resp.status);          // 200
             console.log(resp.success);         // true
             
