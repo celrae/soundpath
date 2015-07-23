@@ -10,11 +10,12 @@ global.fulltext = require('./services/fulltext.js');
 global.search = fulltext.load('pmp', 'search');
 
 
+var maps = require('./routes/map');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var playlist = require('./routes/playlist');
 var download = require('./routes/download');
-var routes = require('./routes/find');
+var find = require('./routes/find');
 
 var app = express();
 
@@ -32,6 +33,8 @@ app.use('/download', download);
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
+app.use('/', routes);
+app.use('/map', maps);
 app.use('/download', download);
 app.use('/users', users);
 app.use('/playlist', playlist);

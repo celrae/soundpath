@@ -1,0 +1,179 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Soundpath</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="https://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0&s=1"></script>
+    <script src='https://netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js'></script>
+
+    <script type="text/javascript" src="js/ajax.js"></script>
+
+    <script type="text/javascript">
+        var localities = [];
+
+        $(document).ready(function() {
+
+            $("#routeDiv").css('height', (window.innerHeight * .9) + 'px');
+            $("#routeDiv").css('width', (window.innerWidth * .2) + 'px');
+            $("#mapDiv").css('height', (window.innerHeight * .9) + 'px');
+            $("#mapDiv").css('width', (window.innerWidth * .7) + 'px');
+            $("#mapDiv").css('left', (window.innerWidth * .25) + 'px');
+
+            $("#searchButton").click(function (e) {
+                e.preventDefault();
+
+                getRoute();
+            });
+
+
+            map = new Microsoft.Maps.Map(document.getElementById("mapDiv"),{
+                credentials: "AptAyFS1uP80QPOPILwbK4dJC1063MGbzTxydX72-pMFN5z5oAnTZBWFFtzXu3ga",
+                center: { latitude: 39.66738447614608, longitude: -100.4481053352356 },
+                zoom: 5,
+                mapTypeId: Microsoft.Maps.MapTypeId.road
+            });
+
+            
+        });
+
+        function getRoute() {
+            var from = $("#from").val();
+            var to = $("#to").val();
+
+            localities = [];
+            map.entities.clear(); 
+
+            window.ajax.post("/map/route", { from: from, to: to }, true, 
+                function success(data) {
+                    processData(data);
+                });
+        }
+
+        function processData(data) {
+            if (!data.resourceSets || !data.resourceSets[0] || !data.resourceSets[0].resources || !data.resourceSets[0].resources[0] || !data.resourceSets[0].resources[0].routeLegs[0]) {
+                return;
+            }
+
+            var lineVertices = new Array();
+
+            var route = data.resourceSets[0].resources[0];
+
+            var previousPoint;
+            
+            route.routePath.line.coordinates.forEach(function (item) {
+                var l = new Microsoft.Maps.Location(item[0], item[1]);
+                
+                if (!previousPoint) {
+                    previousPoint = item;
+                    lineVertices.push(l);
+                }
+
+                if (distance(previousPoint[0], previousPoint[1], item[0], item[1]) > 1) {
+                    previousPoint = item;
+                    lineVertices.push(l);
+                    getLocality(item[0], item[1]);
+                }
+            });
+
+            var line = new Microsoft.Maps.Polyline(lineVertices);
+
+            // Add the polyline to the map
+            map.entities.push(line);
+
+            var bestview = Microsoft.Maps.LocationRect.fromLocations(lineVertices);
+            map.setView({ bounds: bestview });
+            //GetMap();
+        }
+
+        function getLocality(lat, long) {
+            window.ajax.post("/map/locality", { lat: lat, long: long }, true,
+                function success(data) {                    
+                    processLocality(data);
+                });
+        }
+
+        function processLocality(data) {
+            if (!data.resourceSets || !data.resourceSets[0] || !data.resourceSets[0].resources || !data.resourceSets[0].resources[0] || !data.resourceSets[0].resources[0].address) {
+                return;
+            }
+
+            var resources = data.resourceSets[0].resources;
+
+            resources.forEach(function (locality) {
+
+                if (!locality.name || !locality.address.locality || localities.indexOf(locality.address.locality) > -1) {
+                    return;
+                }
+
+                var l = new Microsoft.Maps.Location(locality.point.coordinates[0], locality.point.coordinates[1]);
+                var pin = new Microsoft.Maps.Pushpin(l);
+
+                var pinInfoBox = new Microsoft.Maps.Infobox(pin.getLocation(),
+                  {
+                      title: locality.address.locality,
+                      description: locality.name,
+                      visible: false,
+                      offset: new Microsoft.Maps.Point(0, 15)
+                  });
+
+                // Add handler for the pushpin click event.
+                Microsoft.Maps.Events.addHandler(pin, 'click', function (e) {
+                    pinInfoBox.setOptions({ visible: true });
+                });
+
+                map.entities.push(pin);
+                map.entities.push(pinInfoBox);
+
+                localities.push(locality.address.locality);
+
+                updateLocalityList();
+            });
+        }
+
+        function updateLocalityList() {
+            var temp = [];
+            localities.forEach(function (locality) {
+
+                var item = '<li>' + locality + '</li>';
+
+                temp.push(item);
+            });
+
+            document.getElementById('dataList').innerHTML = '<p><ul>' + temp.join('') + '</ul></p>';
+        }
+
+        function distance(lat1, lon1, lat2, lon2, unit) {
+            var radlat1 = Math.PI * lat1 / 180
+            var radlat2 = Math.PI * lat2 / 180
+            var radlon1 = Math.PI * lon1 / 180
+            var radlon2 = Math.PI * lon2 / 180
+            var theta = lon1 - lon2
+            var radtheta = Math.PI * theta / 180
+            var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+            dist = Math.acos(dist)
+            dist = dist * 180 / Math.PI
+            dist = dist * 60 * 1.1515
+            if (unit == "K") { dist = dist * 1.609344 }
+            if (unit == "N") { dist = dist * 0.8684 }
+            return dist
+        }
+    </script>
+    </head>
+    <body style="padding: 20px;">
+        <div id="routeDiv" style="position:absolute;">
+            <form id="searchForm">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="from" placeholder="from" required="required" autofocus />
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="to" placeholder="destination" required="required" autofocus />
+                </div>
+                <button type="button" id="searchButton" class="btn btn-default">Get Route</button>
+            </form>
+            <div id="dataList"></div>
+        </div>
+        <div id='mapDiv' style="position:absolute;"></div>
+</body>
+</html>
