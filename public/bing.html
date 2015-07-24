@@ -103,7 +103,7 @@
 
             resources.forEach(function (locality) {
 
-                if (!locality.name || !locality.address.locality || localities.indexOf(locality.address.locality) > -1) {
+                if (!locality.name || !locality.address.locality || localities.indexOf(locality.address.locality + ", " + locality.address.adminDistrict) > -1) {
                     return;
                 }
 
@@ -126,7 +126,7 @@
                 map.entities.push(pin);
                 map.entities.push(pinInfoBox);
 
-                localities.push(locality.address.locality);
+                localities.push(locality.address.locality + ", " + locality.address.adminDistrict);
 
                 updateLocalityList();
             });

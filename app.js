@@ -10,12 +10,13 @@ global.fulltext = require('./services/fulltext.js');
 global.search = fulltext.load('pmp', 'search');
 
 
+var find = require('./routes/find');
 var maps = require('./routes/map');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var playlist = require('./routes/playlist');
 var download = require('./routes/download');
-var find = require('./routes/find');
+
 
 var app = express();
 
@@ -32,7 +33,7 @@ app.use(cookieParser());
 app.use('/download', download);
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
+app.use('/', find);
 app.use('/', routes);
 app.use('/map', maps);
 app.use('/download', download);
