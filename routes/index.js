@@ -40,8 +40,8 @@ router.post('/testsearch', function (req, res, next) {
         //    results.push(obj);
         //});
         
-        
-        var resp = '<table cellspacing="5"><th><tr><td>title</td><td>created</td><td>duration</td><td>link</td></tr></th><tbody>';
+
+        var resp = '<table cellspacing="5"><th><tr><td>listen</td></tr></th><tbody>';
         results.forEach(function (item) {
 
             item.items.forEach(function (subitem) {
@@ -51,15 +51,34 @@ router.post('/testsearch', function (req, res, next) {
                     && subitem.links.enclosure[0].type === "audio/m3u" 
                     && subitem.links.enclosure[0].href 
                     && subitem.links.enclosure[0].meta.duration) {
-                    resp += '<tr><td>' + item.attributes.title  
-                         + '</td><td>' + moment(item.attributes.created).format("YYYY-MM-DD HH:mm:ssZ") 
-                         + '</td><td>' + subitem.links.enclosure[0].meta.duration 
-                         + "</td><td><a href='" + item.links.alternate[0].href + "'>" + item.attributes.title + "</a></td></tr>";
+                    resp += '<tr><td><h5>' + item.attributes.title 
+                         + "</h5></td></tr><tr><td> <audio controls> <source src='" + subitem.links.enclosure[0].href + "'> </audio>"
+                         + '</td></tr>';
                 }
             });
         });
         
         resp += "</tbody></table>";
+
+        // var resp = '<table cellspacing="5"><th><tr><td>listen</td><td>title</td><td>created</td><td>duration</td></tr></th><tbody>';
+        // results.forEach(function (item) {
+
+        //     item.items.forEach(function (subitem) {
+        //         if (subitem.links && subitem.links.enclosure 
+        //             && subitem.links.enclosure[0] 
+        //             && subitem.links.enclosure[0].type 
+        //             && subitem.links.enclosure[0].type === "audio/m3u" 
+        //             && subitem.links.enclosure[0].href 
+        //             && subitem.links.enclosure[0].meta.duration) {
+        //             resp += "<td><audio controls> <source src='" + subitem.links.enclosure[0].href + "'> </audio>"
+        //                  + '</td><td>' + item.attributes.title  
+        //                  + '</td><td>' + moment(item.attributes.created).format("YYYY-MM-DD HH:mm:ssZ")
+        //                  + '</td><td>' + subitem.links.enclosure[0].meta.duration + '</td></tr>';
+        //         }
+        //     });
+        // });
+        
+        // resp += "</tbody></table>";
         
         return res.send(resp);
        //return res.render('stories', { list: results });
