@@ -15,6 +15,7 @@
     "moment-timezone": "*",
     "morgan": "~1.5.1",
     "pmpsdk": "*",
+    "graceful-fs": "*",
     "serve-favicon": "~2.2.0"
   }
 }
