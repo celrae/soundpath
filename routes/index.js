@@ -48,7 +48,8 @@ router.post('/testsearch', function (req, res, next) {
                 if (subitem.links && subitem.links.enclosure 
                     && subitem.links.enclosure[0] 
                     && subitem.links.enclosure[0].type 
-                    && subitem.links.enclosure[0].type === "audio/m3u" 
+                    && subitem.links.enclosure[0].type === "audio/m3u"
+// CELESTE: I need to add audio/mpeg, but I don't know if I should do it on the same line or in a separate line
                     && subitem.links.enclosure[0].href 
                     && subitem.links.enclosure[0].meta.duration) {
                     resp += '<tr><td><h5>' + item.attributes.title 
