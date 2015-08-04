@@ -1,0 +1,67 @@
+var STATES = [
+    ["Alabama", "AL", "Ala.", 1],
+    ['Alaska', "AK", "Alaska", 2],
+    ["Arizona", "AZ", "Ariz.", 4], 
+    ["Arkansas", 'AR', "Ark.", 5], 
+    ["California", "CA", "Calif.", 6], 
+    ["Colorado", "CO", "Colo.", 8], 
+    ["Connecticut", "CT", "Conn.", 9], 
+    ["Delaware", "DE", "Del.", "10"], 
+    ["District of Columbia", "DC", "D.C.", 11], 
+    ["Florida", "FL", "Fla.", 12], 
+    ["Georgia", "GA", "Ga.", 13], 
+    ["Hawaii", "HI", "Hawaii", 15], 
+    ["Idaho", 'ID', "Idaho", 16], 
+    ["Illinois", "IL", "Ill.", 17], 
+    ["Indiana", "IN", "Ind.", 18], 
+    ["Iowa", "IA", "Iowa", 19], 
+    ["Kansas", "KS", "Kan.", 20], 
+    ["Kentucky", "KY", "Ky.", 21], 
+    ["Louisiana", "LA", "La.", 22], 
+    ["Maine", "ME", "Maine", 23], 
+    ["Maryland", "MD", "Md.", 24], 
+    ["Massachusetts", "MA", "Mass.", 25], 
+    ["Michigan", "MI", "Mich.", 26], 
+    ["Minnesota", "MN", "Minn.", 27], 
+    ["Mississippi", "MS", "Miss.", 28], 
+    ["Missouri", "MO", "Mo.", 29], 
+    ["Montana", "MT", "Mont.", 30], 
+    ["Nebraska", "NE", "Neb.", 31], 
+    ["Nevada", "NV", "Nev.", 32], 
+    ["New Hampshire", "NH", "N.H.", 33], 
+    ["New Jersey", "NJ", "N.J.", 34], 
+    ["New Mexico", "NM", "N.M.", 35], 
+    ["New York", "NY", "N.Y.", 36], 
+    ["North Carolina", "NC", "N.C.", 37], 
+    ["North Dakota", "ND", "N.D.", 38], 
+    ["Ohio", "OH", "Ohio", 39], 
+    ["Oklahoma", "OK", "Okla.", 40], 
+    ["Oregon", "OR", "Ore.", 41], 
+    ["Pennsylvania", "PA", "Pa.", 42],
+    ["Rhode Island", "RI", "R.I.", 44], 
+    ["South Carolina", "SC", "S.C.", 45], 
+    ["South Dakota", "SD", "S.D.", 46], 
+    ["Tennessee", "TN", "Tenn.", 47], 
+    ["Texas", "TX", "Texas", 48], 
+    ["Utah", "UT", "Utah", 49], 
+    ["Vermont", "VT", "Vt.", 50], 
+    ["Virginia", "VA", "Va.", 51],
+    ["Washington", "WA", "Wash.", 53],
+    ["West Virginia", "WV", "W.Va.", 54], 
+    ["Wisconsin", "WI", "Wisc.", 55], 
+    ["Wyoming", "WY", "Wyo.", 56],
+    ["Puerto Rico",   "PR",   "P.R.", 72],
+    ["Virgin Islands", "VI", "V.I.", 78],
+    ["Guam", "GU","Guam", 66],
+    ["American Samoa","AS","A.S.",60],
+    ["Northern Mariana Islands","MP", "M.P.", 69]
+  ];
+
+  var stateToAP = function(state) {
+  
+  for (var i = 0; i < STATES.length; i++) {
+    if (STATES[i][1].indexOf(state) > -1) {
+      return STATES[i][2]
+    }
+  };
+};
