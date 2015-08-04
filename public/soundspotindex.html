@@ -28,29 +28,72 @@
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="icon" type="image/png" href="images/favicon.ico">
-    <script src="js/test.js" type="text/javascript"></script>
+  <script type="text/javascript" src="js/abbreviations.js"></script> 
+    
+
     <script>
 
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(getLocality);
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+
+    function getLocality(position) {
+        jQuery.post("/map/locality", { lat: position.coords.latitude, long: position.coords.longitude },
+            function success(data) {                    
+                processLocality(data);
+            });
+    }
+
+    function processLocality(data) {
+        if (!data.resourceSets || !data.resourceSets[0] || !data.resourceSets[0].resources || !data.resourceSets[0].resources[0] || !data.resourceSets[0].resources[0].address) {
+            return;
+        }
+
+        var resources = data.resourceSets[0].resources;
+
+        resources.forEach(function (locality) {
+
+            if (!locality.name || !locality.address.locality) {
+                return;
+            }
+            var query = '"' + locality.address.locality + ', ' + stateToAP(locality.address.adminDistrict) + '"';
+
+            searchPMP(query);
+        }); 
+    }   
+
+
+    /* Search the PMP for stories about the current location */    
     function pmpquery_here(event){
         event.preventDefault();
         searchPMP();
     }
 
     function searchPMP() {
-    var query={};
-    query.profile = "story";
-    query.text = "Charleston, S.C.";
-    query.limit = "5";
-    query.has = "audio";
-    //query.searchsort = 'relevance ';
+      var query={};
+      query.profile = "story";
+      query.text = $("#pmpquery").val();
+      query.limit = "5";
+      query.has = "audio";
+      //query.searchsort = 'relevance ';
 
-    jQuery.post('/testsearch', query, function success(data) {
-        $("#pmpTree").html(data + "</br>");
-        //$("#pmpTree").jsonViewer(data);
-    },'html').fail(function (e) {
-        alert(e);
-    });
-}
+      jQuery.post('/testsearch', query, function success(data) {
+          $("#pmpTree").html(data + "</br>");
+          //$("#pmpTree").jsonViewer(data);
+      },'html').fail(function (e) {
+          alert(e);
+      });
+    }
+
+    // $(document).ready(function() {
+    //   getLocation(); 
+    // });
+
+
     </script>
 </head>
 <body>
@@ -61,9 +104,10 @@
     <div class="row">
       <div class="one-half column" style="margin-top: 25%">
         <h3>Soundspot</h3>
-        <h4>Hear what's here.</h4>
-        <p class="spot-sound"><a onclick="javascript:pmpquery_here(event);"><img src="images/radar.png"/ width="100px"></a></p>
-        <p>Find public media stories about your current location.</p> 
+        <h4>Hear what's (t)here</h4>
+        <p>Find public media stories about <input type="text" class="form-control" id="pmpquery" placeholder="a different location." value="">.</p> 
+        <p class="spot-sound"><a onclick="javascript:searchPMP(event);"><img src="images/radar.png"/ width="100px"></a></p>
+        
       </div>
       <div id="pmpTree"></div>
     </div>

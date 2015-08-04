@@ -99,7 +99,7 @@ router.post('/testsearch', function (req, res, next) {
                          + '</td></tr>';
                 });
 
-                resp += "</tbody></table>";
+                resp += "</tbody></table><p><em>Not the location you wanted? <a href='soundspotindex.html'>Try a different search.</a>";
                 return res.send(resp);
 
             });
