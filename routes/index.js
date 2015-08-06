@@ -26,7 +26,8 @@ router.post('/testsearch', function (req, res, next) {
     
     pmp.testSearch(query, function (err, results) {
         if (!results) {
-            return res.json({});
+            var nostory = '<p>Sorry, there are no stories at this location. <a href=soundspotindex.html>Try another search.</a></p>'
+            return res.send(nostory);
         }
         
         //return res.render('stories', { list: results });

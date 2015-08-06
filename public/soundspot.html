@@ -17,10 +17,7 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
   
-  <!-- jQuery
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <!-- CSS
+   <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/skeleton.css">
@@ -28,11 +25,16 @@
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="icon" type="image/png" href="images/favicon.ico">
+
+  <!-- jQuery
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<!-- Javascript -->
   <script type="text/javascript" src="js/abbreviations.js"></script> 
     
-
-    <script>
-
+  <script>
+    /* Get lat/long of the user's current position from the browser. */   
     function getLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(getLocality);
@@ -40,14 +42,14 @@
             alert("Geolocation is not supported by this browser.");
         }
     }
-
+    /* What's at this location? */   
     function getLocality(position) {
         jQuery.post("/map/locality", { lat: position.coords.latitude, long: position.coords.longitude },
             function success(data) {                    
                 processLocality(data);
             });
     }
-
+    /* Extract city and state information from the locality information */   
     function processLocality(data) {
         if (!data.resourceSets || !data.resourceSets[0] || !data.resourceSets[0].resources || !data.resourceSets[0].resources[0] || !data.resourceSets[0].resources[0].address) {
             return;
