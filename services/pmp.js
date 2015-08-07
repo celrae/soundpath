@@ -11,10 +11,6 @@ module.exports = {
             
             console.log(resp.status);          // 200
             console.log(resp.success);         // true
-
-            //console.log(query.items.length);   // 10
-            //console.log(query.total());        // 999
-            //console.log(query.items[0].attributes.title); // "Some doc title"
             
             if (resp.status === 404) {
                 return callback(null);

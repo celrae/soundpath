@@ -1,0 +1,19 @@
+<table cellspacing="5">
+  <th><tr><td>listen</td></tr></th>
+  <tbody>
+    <% list.forEach(function(obj) { %>
+    <tr>
+      <td>
+        <h5><%= obj.title %></h5>
+        <br />
+        <audio controls="">
+          <source src='<%= obj.href %>'>
+        </audio>"
+      </td>
+    </tr>
+    <% }); %>
+  </tbody>
+</table>
+<p>
+  <em>Not the location you wanted? <a href='soundspotindex.html'>Try a different search.</a>
+</p>

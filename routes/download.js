@@ -4,8 +4,7 @@ var ejs = require('ejs');
 var pmp = require('../services/pmp');
 var moment = require('moment-timezone');
 
-
-/* GET home page. */
+/* GET csv export */
 router.get('*',function (req, res, next) {
     var query = req.query;
     
