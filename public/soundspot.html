@@ -92,8 +92,8 @@
     }
 
     // $(document).ready(function() {
-    //   getLocation(); 
-    // });
+    //     getLocation(); 
+    //   });
 
 
     </script>
@@ -102,7 +102,7 @@
 
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div class="container">
+  <div class="container" id="currentlocation">
     <div class="row">
       <div class="one-half column" style="margin-top: 25%">
         <h3>Soundspot</h3>
@@ -114,6 +114,21 @@
       <div id="pmpTree"></div>
     </div>
   </div>
+
+<!-- If results aren't found, show search option
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+<!--   <div class="container" id="spotsearch">
+    <div class="row">
+      <div class="one-half column" style="margin-top: 25%">
+        <h3>Soundspot</h3>
+        <h4>Hear what's (t)here</h4>
+        <p>Find public media stories about <input type="text" class="form-control" id="pmpquery" placeholder="a different location." value="">.</p> 
+        <p class="spot-sound"><a onclick="javascript:searchPMP(event);"><img src="images/radar.png"/ width="100px"></a></p>
+        
+      </div>
+      <div id="pmpTree"></div>
+    </div>
+  </div> -->
 
 <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->

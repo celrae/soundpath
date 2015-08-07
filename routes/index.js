@@ -26,7 +26,7 @@ router.post('/testsearch', function (req, res, next) {
     
     pmp.testSearch(query, function (err, results) {
         if (!results) {
-            var nostory = '<p>Sorry, there are no stories at this location. <a href=soundspotindex.html>Try another search.</a></p>'
+            var nostory = '<p>Sorry, there are no stories for this location. <a href=soundspotindex.html>Try another search.</a></p>'
             return res.send(nostory);
         }
         
@@ -96,7 +96,7 @@ router.post('/testsearch', function (req, res, next) {
                 audioLinks.forEach(function (subitem) { 
                 
                     resp += '<tr><td><h5>' + subitem.title 
-                         + "</h5></td></tr><tr><td> <audio controls> <source src='" + subitem.href + "'> </audio>" 
+                         + "</h5><br><audio controls> <source src='" + subitem.href + "'> </audio>" 
                          + '</td></tr>';
                 });
 

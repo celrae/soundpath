@@ -167,7 +167,8 @@ p.spot-sound img:hover {
 a {
   color: #1EAEDB; }
 a:hover img {
-  color: #0FA0CE; }
+  color: #0FA0CE; 
+  text-decoration: none}
 
 
 /* Buttons
