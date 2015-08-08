@@ -37,7 +37,7 @@ router.post('/pmp', function (req, res, next) {
                     && subitem.links.enclosure[0].href 
                     && subitem.links.enclosure[0].meta.duration) {
                     
-                    audioLinks.push({ title: item.attributes.title, type: subitem.links.enclosure[0].type, href: subitem.links.enclosure[0].href });
+                    audioLinks.push({ title: item.attributes.title, teaser: item.attributes.teaser, type: subitem.links.enclosure[0].type, href: subitem.links.enclosure[0].href, published: item.attributes.published });
                 }
             });
             
@@ -66,7 +66,8 @@ router.post('/pmp', function (req, res, next) {
                 //next step:
                 //finished getting mp3 data
                 //now build and render the response view html              
-                return res.render('results', { list: audioLinks });
+                //return res.render('results', { list: audioLinks });
+                return res.json(audioLinks);
             });
         });
     });

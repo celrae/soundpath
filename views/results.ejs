@@ -1,13 +1,13 @@
 <table cellspacing="5">
   <th><tr><td>listen</td></tr></th>
   <tbody>
-    <% list.forEach(function(obj) { %>
+    <% list.forEach(function(subitem) { %>
     <tr>
       <td>
-        <h5><%= obj.title %></h5>
-        <br />
+        <h5><%= subitem.title %></h5>
+        <p><%= subitem.teaser %></p>
         <audio controls="">
-          <source src='<%= obj.href %>'>
+          <source src='<%= subitem.href %>'>
         </audio>"
       </td>
     </tr>

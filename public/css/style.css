@@ -6,3 +6,9 @@ table td {
 div #spotsearch { 
 	display: none;
 }
+
+p #scrubber {
+	height: 5px;
+	border-radius: 1px;
+	background-color: orange;
+}

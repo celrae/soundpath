@@ -35,6 +35,10 @@
     
   <script>
     /* Get lat/long of the user's current position from the browser. */   
+    var audioLinks = Array();
+    var currentTrack;
+    var timerInterval;
+
     function getLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(getLocality);
@@ -62,7 +66,7 @@
             if (!locality.name || !locality.address.locality) {
                 return;
             }
-            var query = '"' + locality.address.locality + ', ' + stateToAP(locality.address.adminDistrict) + '"';
+            var query = locality.address.locality + ', ' + stateToAP(locality.address.adminDistrict);
 
             searchPMP(query);
         }); 
@@ -78,57 +82,162 @@
     function searchPMP(pmpquery) {
       var query={};
       query.profile = "story";
-      query.text = pmpquery;
-      query.limit = "5";
+      query.text = '"' + (pmpquery || $("#pmpquery").val()) + '"';
+      query.limit = "8";
       query.has = "audio";
       //query.searchsort = 'relevance ';
 
+      
       jQuery.post('/search/pmp', query, function success(data) {
-          $("#pmpTree").html(data + "</br>");
+          if (data || data.length > 0){
+            audioLinks = JSON.parse(data);
+            currentTrack = null;
+            $("#listenLocation").html("Listen to the stories of " + (pmpquery || $("#pmpquery").val()));
+          } 
+          //skip to next track  
+          skipToNextTrack();
+
           //$("#pmpTree").jsonViewer(data);
       },'html').fail(function (e) {
           alert(e);
       });
     }
 
-    // $(document).ready(function() {
-    //     getLocation(); 
-    //   });
+    function skipToNextTrack(){
+      if (currentTrack){
+        audioLinks.push(currentTrack);
+      }
 
+      currentTrack = audioLinks.shift();
+
+      if (!currentTrack){
+        $("#spotsearch").show();
+        $("#currentLocation").hide();
+        alert("Sorry, there's nothing to hear here. Try another search.");
+        return;
+      }
+    
+      playTrack();
+
+    }
+
+    function playTrack(){
+      $("#trackTitle").html(currentTrack.title);
+      $("#trackTeaser").html(currentTrack.teaser);
+      updateSource();
+    }
+
+    function updateSource(){
+      $("#nowPlaying").show();
+      $("#trackAudio").attr("src", currentTrack.href).appendTo($("#trackAudio").parent());  
+      $("#player")[0].load();//suspends and restores all audio element
+      clearInterval(timerInterval);
+      timerInterval = setInterval(trackTime,1000);
+      playtoggle();
+    }
+
+    function trackTime() {
+      var duration = $('#player')[0].duration;
+      $("#duration").html(' / ' + Math.round(duration).toString().toHHMMSS());
+      $("#currentTime").html(Math.round($('#player')[0].currentTime).toString().toHHMMSS());
+    }
+
+
+    function playtoggle(){
+      if ($("#player")[0].paused){
+        $ ("#player")[0].play();
+        $("#playpause").html("PAUSE");
+      }
+      else {
+        $ ("#player")[0].pause();
+        $("#playpause").html("PLAY");
+      }
+    }
+
+      //var source = document.createElement("source");
+      //source.src = currentTrack.href;
+      //document.getElementById("player").appendChild(source);
+      //$("#player")$("<source src='" + currentTrack.href + "'>").appendTo()   
+      
+
+    function newSearch() {
+      $("#spotsearch").show();
+      $("#currentLocation").hide();
+      $("#nowPlaying").show();
+    }
+
+    String.prototype.toHHMMSS = function () {
+        var sec_num = parseInt(this, 10); // don't forget the second param
+        var hours   = Math.floor(sec_num / 3600);
+        var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+        var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+        if (hours   < 10) {hours   = "0"+hours;}
+        if (minutes < 10) {minutes = "0"+minutes;}
+        if (seconds < 10) {seconds = "0"+seconds;}
+        var time    = minutes+':'+seconds;;
+        if (hours != "00"){
+          time += hours+':'+minutes+':'+seconds; 
+        }
+        return time;
+    }
 
     </script>
 </head>
 <body>
 
-  <!-- Primary Page Layout
+  <!-- Main page welcome 
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div class="container" id="currentlocation">
+  <div class="container">
     <div class="row">
       <div class="one-half column" style="margin-top: 25%">
-        <h3>Soundspot</h3>
-        <h4>Hear what's here.</h4>
-<!--         <input type="text" class="form-control" id="pmpquery" placeholder="Enter a place name." value=""> -->
-        <p class="spot-sound"><a onclick="javascript:getLocation();"><img src="images/radar.png"/ width="175px"></a></p>
-        <p>Push to find public media stories about your current location.</p> 
-      </div>
-      <div id="pmpTree"></div>
+        <div id="currentLocation" style="display: display">
+          <h3>Soundspot</h3>
+          <h4>Hear what's here.</h4>
+          <p class="spot-sound"><a onclick="javascript:getLocation();"><img src="images/radar.png"/ width="175px"></a></p>
+          <p>Push to find public media stories about your current location.</p> 
+        </div>
+
+<!-- Search page for when there are no results for current location
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+        <div id="spotsearch" style="display: none">
+          <h3>Soundspot</h3>
+          <h4>Hear what's <em>there</em>.</h4>
+          <p>Find public media stories about <input type="text" class="form-control" id="pmpquery" placeholder="a different location." value="">.</p> 
+          <p class="spot-sound"><a onclick="javascript:searchPMP();"><img src="images/radar.png"/ width="175px"></a></p>
+        </div>
+      </div>     
+
+<!-- When results are found, here's the audio player -->
+    <div id="pmpTree">
+    <table id="nowPlaying" style="display: none" cellspacing="5">
+      <th><tr><td id="listenLocation"></td></tr></th>
+      <tbody>
+        <tr>
+          <td>
+            <p id="#published"></p>
+            <h5 id="trackTitle"></h5>
+            <p id="trackTeaser"></p>
+            <audio id="player" autoplay="autoplay" onended="javascript:skipToNextTrack();">
+              <source id="trackAudio" src="">
+            </audio>
+            <p style="align: right"><span  id="currentTime"></span><span id="duration"></span><p>
+            <a class="button" id="playpause" onclick="javascript:playtoggle();">PAUSE</a>
+            <a class="button" onclick="javascript:skipToNextTrack();">SKIP</a>
+          </td>
+        </tr>
+        <tr>
+          <td>    
+            <p><em>Not the location you wanted? <a onclick='javascript:newSearch();'>Try a different search.</a>
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
     </div>
   </div>
 
-<!-- If results aren't found, show search option
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-<!--   <div class="container" id="spotsearch">
-    <div class="row">
-      <div class="one-half column" style="margin-top: 25%">
-        <h3>Soundspot</h3>
-        <h4>Hear what's (t)here</h4>
-        <p>Find public media stories about <input type="text" class="form-control" id="pmpquery" placeholder="a different location." value="">.</p> 
-        <p class="spot-sound"><a onclick="javascript:searchPMP(event);"><img src="images/radar.png"/ width="100px"></a></p>
-        
-      </div>
-      <div id="pmpTree"></div>
-    </div>
-  </div> -->
+
 
 <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
