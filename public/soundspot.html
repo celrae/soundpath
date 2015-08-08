@@ -93,6 +93,7 @@
             audioLinks = JSON.parse(data);
             currentTrack = null;
             $("#listenLocation").html("Listen to the stories of " + (pmpquery || $("#pmpquery").val()));
+            $("#currentLocation").hide();
           } 
           //skip to next track  
           skipToNextTrack();
@@ -149,7 +150,7 @@
         $("#playpause").html("PAUSE");
       }
       else {
-        $ ("#player")[0].pause();
+        $("#player")[0].pause();
         $("#playpause").html("PLAY");
       }
     }
@@ -163,7 +164,13 @@
     function newSearch() {
       $("#spotsearch").show();
       $("#currentLocation").hide();
-      $("#nowPlaying").show();
+      if ($("#player")[0].paused){
+        $("#nowPlaying").hide();
+      }
+      else {
+        $("#player")[0].pause();
+        $("#nowPlaying").hide();
+      }
     }
 
     String.prototype.toHHMMSS = function () {
