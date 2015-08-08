@@ -36,6 +36,7 @@
   <script>
     /* Get lat/long of the user's current position from the browser. */   
     var audioLinks = Array();
+    var audioPlayed = {};
     var currentTrack;
     var timerInterval;
 
@@ -56,6 +57,9 @@
     /* Extract city and state information from the locality information */   
     function processLocality(data) {
         if (!data.resourceSets || !data.resourceSets[0] || !data.resourceSets[0].resources || !data.resourceSets[0].resources[0] || !data.resourceSets[0].resources[0].address) {
+            if(audioLinks.length > 0) {
+              skipToNextTrack();
+            }
             return;
         }
 
@@ -90,7 +94,13 @@
       
       jQuery.post('/search/pmp', query, function success(data) {
           if (data || data.length > 0){
-            audioLinks = JSON.parse(data);
+            audioLinks = JSON.parse(data).filter(function(x){
+              if(audioPlayed[x.href]){
+                return false;
+              }
+              return true;
+            });
+
             currentTrack = null;
             $("#listenLocation").html("Listen to the stories of " + (pmpquery || $("#pmpquery").val()));
             $("#currentLocation").hide();
@@ -106,9 +116,10 @@
     }
 
     function skipToNextTrack(){
-      if (currentTrack){
-        audioLinks.push(currentTrack);
-      }
+      //if (currentTrack){
+        //audioPlayed[currentTrack.href] = true;
+        //audioLinks.push(currentTrack);
+      //}
 
       currentTrack = audioLinks.shift();
 
@@ -124,6 +135,7 @@
     }
 
     function playTrack(){
+      audioPlayed[currentTrack.href] = true;
       $("#trackTitle").html(currentTrack.title);
       $("#trackTeaser").html(currentTrack.teaser);
       updateSource();
@@ -226,7 +238,7 @@
             <p id="#published"></p>
             <h5 id="trackTitle"></h5>
             <p id="trackTeaser"></p>
-            <audio id="player" autoplay="autoplay" onended="javascript:skipToNextTrack();">
+            <audio id="player" autoplay="autoplay" onended="javascript:getLocation();">
               <source id="trackAudio" src="">
             </audio>
             <p style="align: right"><span  id="currentTime"></span><span id="duration"></span><p>
