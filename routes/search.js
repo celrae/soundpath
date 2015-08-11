@@ -19,7 +19,7 @@ router.post('/pmp', function (req, res, next) {
     pmpsdk.queryDocs(query, function (doc, resp) {
         
         if (resp.status === 404 || !doc.items) {
-            return res.render('nostory');
+            return res.json([]);
         }
 
         var audioLinks = [];

@@ -31,6 +31,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
 <!-- Javascript -->
+  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="js/abbreviations.js"></script> 
     
   <script>
@@ -148,6 +149,7 @@
       clearInterval(timerInterval);
       timerInterval = setInterval(trackTime,1000);
       playtoggle();
+      tracktime();
     }
 
     function trackTime() {
@@ -242,8 +244,10 @@
               <source id="trackAudio" src="">
             </audio>
             <p style="align: right"><span  id="currentTime"></span><span id="duration"></span><p>
+            <a class="button" id="goBack" onclick="javascript:document.getElementById('player').currentTime = document.getElementById('player').currentTime - 10">-10s</a> 
             <a class="button" id="playpause" onclick="javascript:playtoggle();">PLAY</a>
-            <a class="button" onclick="javascript:skipToNextTrack();">SKIP</a>
+            <a class="button" id="goBack" onclick="javascript:document.getElementById('player').currentTime = document.getElementById('player').currentTime + 30">+30s</a> 
+            <a class="button" id="skip" onclick="javascript:skipToNextTrack();">SKIP</a>
           </td>
         </tr>
         <tr>
