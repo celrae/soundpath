@@ -21,6 +21,7 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -162,11 +163,11 @@
     function playtoggle(){
       if ($("#player")[0].paused){
         $ ("#player")[0].play();
-        $("#playpause").html("PAUSE");
+        $("#playpause").html('<i class="fa fa-pause"></i>');
       }
       else {
         $("#player")[0].pause();
-        $("#playpause").html("PLAY");
+        $("#playpause").html('<i class="fa fa-play"></i>');
       }
     }
 
@@ -218,7 +219,9 @@
           <h4>Hear what's here.</h4>
           <p class="spot-sound"><a onclick="javascript:getLocation();"><img src="images/radar.png"/ width="175px"></a></p>
           <p>Push to find public media stories about your current location.</p> 
+          <p><a onclick='javascript:newSearch();'>(Or, try a different search.)</a>
         </div>
+
 
 <!-- Search page for when there are no results for current location
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -244,10 +247,10 @@
               <source id="trackAudio" src="">
             </audio>
             <p style="align: right"><span  id="currentTime"></span><span id="duration"></span><p>
-            <a class="button" id="goBack" onclick="javascript:document.getElementById('player').currentTime = document.getElementById('player').currentTime - 10">-10s</a> 
-            <a class="button" id="playpause" onclick="javascript:playtoggle();">PLAY</a>
-            <a class="button" id="goBack" onclick="javascript:document.getElementById('player').currentTime = document.getElementById('player').currentTime + 30">+30s</a> 
-            <a class="button" id="skip" onclick="javascript:skipToNextTrack();">SKIP</a>
+            <a class="button" id="goBack" onclick="javascript:document.getElementById('player').currentTime = document.getElementById('player').currentTime - 10"><i class="fa fa-backward"></i> 10s</font></a> 
+            <a class="button" id="playpause" onclick="javascript:playtoggle();"><i class="fa fa-play"></i></a>
+            <a class="button" id="goBack" onclick="javascript:document.getElementById('player').currentTime = document.getElementById('player').currentTime + 30">30s <i class="fa fa-forward"></i></a> 
+            <a class="button" id="skip" onclick="javascript:skipToNextTrack();"><i class="fa fa-step-forward"></i></a>
           </td>
         </tr>
         <tr>
@@ -261,6 +264,8 @@
     </div>
   </div>
 
+<footer>  
+</footer>
 
 
 <!-- End Document
