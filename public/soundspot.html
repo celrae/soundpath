@@ -146,7 +146,7 @@
     function updateSource(){
       $("#nowPlaying").show();
       $("#trackAudio").attr("src", currentTrack.href).appendTo($("#trackAudio").parent());  
-      $("#player")[0].load();//suspends and restores all audio element
+      //$("#player")[0].load();//suspends and restores all audio element
       clearInterval(timerInterval);
       timerInterval = setInterval(trackTime,1000);
       playtoggle();
