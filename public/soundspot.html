@@ -157,18 +157,26 @@
       var duration = $('#player')[0].duration;
       $("#duration").html(' / ' + Math.round(duration).toString().toHHMMSS());
       $("#currentTime").html(Math.round($('#player')[0].currentTime).toString().toHHMMSS());
+      setPlayButton();
     }
 
+    function setPlayButton() {
+      if ($("#player")[0].paused) {
+        $("#playpause").html('<i class="fa fa-play"></i>');
+      }
+      else {
+        $("#playpause").html('<i class="fa fa-pause"></i>');
+      }
+    }
 
     function playtoggle(){
-      if ($("#player")[0].paused){
+      if ($("#player")[0].paused) {
         $ ("#player")[0].play();
-        $("#playpause").html('<i class="fa fa-pause"></i>');
       }
       else {
         $("#player")[0].pause();
-        $("#playpause").html('<i class="fa fa-play"></i>');
       }
+      setPlayButton();
     }
 
       //var source = document.createElement("source");
