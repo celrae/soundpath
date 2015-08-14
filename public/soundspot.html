@@ -89,11 +89,11 @@
       var query={};
       query.profile = "story";
       query.text = '"' + (pmpquery || $("#pmpquery").val()) + '"';
-      query.limit = "10";
+      query.limit = "15";
       query.has = "audio";
       //query.searchsort = 'relevance ';
 
-      
+
       jQuery.post('/search/pmp', query, function success(data) {
           if (data || data.length > 0){
             audioLinks = JSON.parse(data).filter(function(x){
@@ -150,7 +150,8 @@
       clearInterval(timerInterval);
       timerInterval = setInterval(trackTime,1000);
       playtoggle();
-      tracktime();
+      trackTime();
+      updateQueue();
     }
 
     function trackTime() {
@@ -168,6 +169,12 @@
         $("#playpause").html('<i class="fa fa-pause"></i>');
       }
     }
+
+    function updateQueue() {
+      $("#queueLength").html(audioLinks.length);
+      $("#nextTrack").html(audioLinks[1].title);
+    }
+
 
     function playtoggle(){
       if ($("#player")[0].paused) {
@@ -254,11 +261,13 @@
             <audio id="player" autoplay="autoplay" onended="javascript:getLocation();">
               <source id="trackAudio" src="">
             </audio>
-            <p style="align: right"><span  id="currentTime"></span><span id="duration"></span><p>
-            <a class="button" id="goBack" onclick="javascript:document.getElementById('player').currentTime = document.getElementById('player').currentTime - 10"><i class="fa fa-backward"></i> 10s</font></a> 
+            <p style="align: right"><span  id="currentTime"></span><span id="duration"></span></p>
+            <p><a class="button" id="goBack" onclick="javascript:document.getElementById('player').currentTime = document.getElementById('player').currentTime - 10"><i class="fa fa-backward"></i> 10s</font></a> 
             <a class="button" id="playpause" onclick="javascript:playtoggle();"><i class="fa fa-play"></i></a>
-            <a class="button" id="goBack" onclick="javascript:document.getElementById('player').currentTime = document.getElementById('player').currentTime + 30">30s <i class="fa fa-forward"></i></a> 
-            <a class="button" id="skip" onclick="javascript:skipToNextTrack();"><i class="fa fa-step-forward"></i></a>
+            <a class="button" id="goBack" onclick="javascript:document.getElementById('player').currentTime = document.getElementById('player').currentTime + 30">30s <i class="fa fa-forward"></i></a>
+            <a class="button" id="skip" onclick="javascript:skipToNextTrack();"><i class="fa fa-step-forward"></i></a></p>
+            <p>There are <span id="queueLength"></span> remaining tracks in your playlist.</p>
+            <p><strong>Coming up next:</strong> <span id="nextTrack"></span>.
           </td>
         </tr>
         <tr>
