@@ -140,6 +140,7 @@
       audioPlayed[currentTrack.href] = true;
       $("#trackTitle").html(currentTrack.title);
       $("#trackTeaser").html(currentTrack.teaser);
+      $("#published").html(currentTrack.published.slice(0,10));
       updateSource();
     }
 
@@ -255,9 +256,9 @@
       <tbody>
         <tr>
           <td>
-            <p id="#published"></p>
+            <p id="published"></p>
             <h5 id="trackTitle"></h5>
-            <p id="trackTeaser"></p>
+            <p id="trackTeaser"></p> 
             <audio id="player" autoplay="autoplay" onended="javascript:getLocation();">
               <source id="trackAudio" src="">
             </audio>
@@ -266,8 +267,8 @@
             <a class="button" id="playpause" onclick="javascript:playtoggle();"><i class="fa fa-play"></i></a>
             <a class="button" id="goBack" onclick="javascript:document.getElementById('player').currentTime = document.getElementById('player').currentTime + 30">30s <i class="fa fa-forward"></i></a>
             <a class="button" id="skip" onclick="javascript:skipToNextTrack();"><i class="fa fa-step-forward"></i></a></p>
-            <p>There are <span id="queueLength"></span> remaining tracks in your playlist.</p>
-            <p><strong>Coming up next:</strong> <span id="nextTrack"></span>.
+            <p><strong>Coming up next:</strong><br><span id="nextTrack"></span>.
+            <p><em>There are <span id="queueLength"></span> tracks in the playlist.</p></em>
           </td>
         </tr>
         <tr>
