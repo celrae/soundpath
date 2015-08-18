@@ -174,7 +174,7 @@
 
     function updateQueue() {
       $("#queueLength").html(audioLinks.length);
-      $("#nextTrack").html(audioLinks[1].title); //this sometimes doesn't work when the first track loads on mobile. not sure why.
+      $("#nextTrack").html(audioLinks[1].title);
     }
 
 
@@ -268,7 +268,7 @@
             <a class="button" id="playpause" onclick="javascript:playtoggle();"><i class="fa fa-play"></i></a>
             <a class="button" id="goBack" onclick="javascript:document.getElementById('player').currentTime = document.getElementById('player').currentTime + 30">30s <i class="fa fa-forward"></i></a>
             <a class="button" id="skip" onclick="javascript:skipToNextTrack();"><i class="fa fa-step-forward"></i></a></p>
-            <p><strong>Coming up next:</strong><br><span id="nextTrack"></span>.
+<!--            <p><strong>Coming up next:</strong><br><span id="nextTrack"></span>. -->
             <p><em>There are <span id="queueLength"></span> tracks in the playlist.</p></em>
           </td>
         </tr>
