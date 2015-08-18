@@ -34,7 +34,7 @@
 <!-- Javascript -->
   <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="js/abbreviations.js"></script> 
-    
+  <script type="text/javascript" src="js/standalone.js"></script>     
   <script>
     /* Get lat/long of the user's current position from the browser. */   
     var audioLinks = Array();
@@ -73,6 +73,7 @@
                 return;
             }
             var query = locality.address.locality + ', ' + stateToAP(locality.address.adminDistrict);
+            var query = placeToAP(query);
 
             searchPMP(query);
         }); 
@@ -173,7 +174,7 @@
 
     function updateQueue() {
       $("#queueLength").html(audioLinks.length);
-      $("#nextTrack").html(audioLinks[1].title);
+      $("#nextTrack").html(audioLinks[1].title); //this sometimes doesn't work when the first track loads on mobile. not sure why.
     }
 
 
