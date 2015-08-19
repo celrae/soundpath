@@ -37,5 +37,8 @@ var standaloneCities = [
     if (standaloneCities[i][1].indexOf(place) > -1) {
       return standaloneCities[i][2]
     }
+    else {
+      return place
+    };
   };
 };
