@@ -33,22 +33,16 @@
 
 <!-- Javascript -->
   <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/location.js"></script>
   <script type="text/javascript" src="js/abbreviations.js"></script> 
   <script type="text/javascript" src="js/standalone.js"></script>     
   <script>
-    /* Get lat/long of the user's current position from the browser. */   
+
     var audioLinks = Array();
     var audioPlayed = {};
     var currentTrack;
     var timerInterval;
 
-    function getLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(getLocality);
-        } else {
-            alert("Geolocation is not supported by this browser.");
-        }
-    }
     /* What's at this location? */   
     function getLocality(position) {
         jQuery.post("/map/locality", { lat: position.coords.latitude, long: position.coords.longitude },
@@ -56,6 +50,7 @@
                 processLocality(data);
             });
     }
+
     /* Extract city and state information from the locality information */   
     function processLocality(data) {
         if (!data.resourceSets || !data.resourceSets[0] || !data.resourceSets[0].resources || !data.resourceSets[0].resources[0] || !data.resourceSets[0].resources[0].address) {
@@ -96,14 +91,23 @@
 
 
       jQuery.post('/search/pmp', query, function success(data) {
-          if (data || data.length > 0){
-            audioLinks = JSON.parse(data).filter(function(x){
+          if (data && data.length > 0){
+            var newTracks = JSON.parse(data).filter(function(x){
+              
+              var exists = audioLinks.some(function(y){
+                return (y.href === x.href);
+              });
+
+              if(exists) {
+                return false;
+              }
+
               if(audioPlayed[x.href]){
                 return false;
               }
               return true;
             });
-
+            audioLinks = newTracks.concat(audioLinks);
             currentTrack = null;
             $("#listenLocation").html("Listen to the stories of " + (pmpquery || $("#pmpquery").val()));
             $("#currentLocation").hide();

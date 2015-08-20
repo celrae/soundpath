@@ -141,12 +141,12 @@ function findPlaces(callback) {
             result.parent = box.id;
             result.text = result.name;
             
-            result.name.split(' ').forEach(function (part) { 
-                part = part.toLowerCase();
-                if (!terms[part]) {
-                    terms[part] = part;
-                }
-            });
+            // result.name.split(' ').forEach(function (part) { 
+            //     part = part.toLowerCase();
+            //     if (!terms[part]) {
+            //         terms[part] = part;
+            //     }
+            // });
             
             getAddress(result, function (err, place) {
                 if (!err) {
