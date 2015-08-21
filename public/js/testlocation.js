@@ -1,5 +1,6 @@
 var fakeTrip = [
 	{ coords: { latitude: 42.376224, longitude: -71.110033 }},
+	{ coords: { latitude: 42.343070, longitude: -71.067972 }},
 	{ coords: { latitude: 41.944150, longitude: -71.281096 }},
 	{ coords: { latitude: 41.824529, longitude: -71.418425 }},
 	{ coords: { latitude: 41.330400, longitude: -71.912810 }},

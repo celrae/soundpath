@@ -1,6 +1,6 @@
 var standaloneCities = [
-  ["Atlanta, GA", "Atlanta, Ga.", "Atlanta, Georgia", "Atlanta"],	
-  ["Phoenix, AZ", "Phoenix, Ariz.", "Phoenix, Arizona", "Phoenix"],
+  	["Atlanta, GA", "Atlanta, Ga.", "Atlanta, Georgia", "Atlanta"],	
+ 	["Phoenix, AZ", "Phoenix, Ariz.", "Phoenix, Arizona", "Phoenix"],
 	["Baltimore, MD", "Baltimore, Md.", "Baltimore, Maryland", "Baltimore"],
 	["Pittsburgh, PA", "Pittsburgh, Pa.", "Pittsburgh, Pennsylvania", "Pittsburg"],
 	["Boston, MA", "Boston, Mass.", "Boston, Massachusetts", "Boston"],
@@ -32,13 +32,12 @@ var standaloneCities = [
 ];
 
   var placeToAP = function(place) {
-  
-  for (var i = 0; i < standaloneCities.length; i++) {
-    if (standaloneCities[i][1].indexOf(place) > -1) {
-      return standaloneCities[i][3]
-    }
-    else {
-      return place
-    };
-  };
+	  var result = place;
+	  for (var i = 0; i < standaloneCities.length; i++) {
+	    if (standaloneCities[i][1].indexOf(place) > -1) {
+	      result = standaloneCities[i][3]
+	    }
+	  };
+
+	  return result;
 };
