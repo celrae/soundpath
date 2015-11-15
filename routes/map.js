@@ -4,7 +4,7 @@ var http = require('http');
 var async = require('async');
 
 
-var bingKey = "AptAyFS1uP80QPOPILwbK4dJC1063MGbzTxydX72-pMFN5z5oAnTZBWFFtzXu3ga";
+var bingKey = "AooV_1M7YzowKwK2I5etnbasj5xP62IeIO_7NpaUOt2AFZpGZdERCWPMPOK8_R-9";
 var bingHost = "dev.virtualearth.net";
 var routePath = "/REST/V1/Routes/Driving";
 var locationPath = "/REST/V1/Locations";
