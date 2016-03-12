@@ -234,9 +234,8 @@
   <!-- Main page welcome 
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <div class="container">
-    <p style="text-align:right"><a href="/about.html">About</a> | <a href="https://github.com/celrae/soundpath">GitHub</a> </p> 
-    <div class="row">
-      <div class="one-half column" style="margin-top: 25%">
+<!--     <p style="text-align:right"><a href="/about.html">About</a> | <a href="https://github.com/celrae/soundpath">GitHub</a> </p> -->
+    <div class="row" style="margin-top: 10%">
         <div id="currentLocation" style="display: display">
           <h3>Soundspot</h3>
           <h4>Hear what's here.</h4>
@@ -273,10 +272,11 @@
             <a class="button" id="playpause" onclick="javascript:playtoggle();"><i class="fa fa-play"></i></a>
             <a class="button" id="goBack" onclick="javascript:document.getElementById('player').currentTime = document.getElementById('player').currentTime + 10">10s <i class="fa fa-forward"></i></a>
 <!--             <a class="button" id="skip" onclick="javascript:skipToNextTrack();"><i class="fa fa-step-forward"></i></a> --></p>
-           <p><strong>Up next:</strong><br><a id="nextTrack" onclick="javascript:skipToNextTrack();"></a>.
+ <!--           <p><strong>Up next:</strong><br><a id="nextTrack" onclick="javascript:skipToNextTrack();"></a>. -->
+                <a class="button button-primary" onclick="javascript:skipToNextTrack();">Next Track</a>
             <p><em>There are <span id="queueLength"></span> tracks in the playlist.</p></em>
             <p></p>   
-            <p><a onclick="javascript:window.location.reload();">Start over</a> | <a onclick='javascript:newSearch();'>Search for a spot</a>
+            <p><a onclick="javascript:window.location.reload();">Start over</a>
             </p>
           </td>
         </tr>
@@ -285,9 +285,9 @@
     </div>
   </div>
 
-<!-- <footer>
-<p><a href="/about.html">About</a> | <a href="https://github.com/celrae/soundpath">GitHub</a> </p> 
-</footer> -->
+<footer>
+<p style="text-align:center"><a href="/about.html">About</a> | <a onclick='javascript:newSearch();'>Search</a> | <a href="https://github.com/celrae/soundpath">GitHub</a></p> 
+</footer>
 
 
 <!-- End Document
