@@ -8,6 +8,7 @@ var PmpSdk = require('pmpsdk');
 var m3uParser = require('../services/m3u.js');
 var fulltext = require('../services/fulltext.js');
 var textsearch = fulltext.load('pmp', 'search');
+var util = require('util');
 
 var pmpsdk = new PmpSdk({ client_id: process.env.PMP_ID, client_secret: process.env.PMP_SECRET, host: 'https://api.pmp.io' });
 
@@ -30,14 +31,22 @@ router.post('/pmp', function (req, res, next) {
             //extract the required data from the result list
             //only results with audio are used
             item.items.forEach(function (subitem) {
+
+                console.log(util.inspect(subitem.links));
+
                 if (subitem.links && subitem.links.enclosure 
                     && subitem.links.enclosure[0] 
                     && subitem.links.enclosure[0].type 
                     && (subitem.links.enclosure[0].type === "audio/m3u" || subitem.links.enclosure[0].type === "audio/mpeg") 
-                    && subitem.links.enclosure[0].href 
-                    && subitem.links.enclosure[0].meta.duration) {
+                    && subitem.links.enclosure[0].href                  
+                    && subitem.links.enclosure[0].meta.duration)    {
                     
-                    audioLinks.push({ title: item.attributes.title, teaser: item.attributes.teaser, type: subitem.links.enclosure[0].type, href: subitem.links.enclosure[0].href, published: item.attributes.published });
+                    var url = "";
+                    if (subitem.links.alternate && subitem.links.alternate[0].href) {
+                        url = subitem.links.alternate[0].href;    
+                    }
+
+                    audioLinks.push({ title: item.attributes.title, teaser: item.attributes.teaser, type: subitem.links.enclosure[0].type, href: subitem.links.enclosure[0].href, published: item.attributes.published, url: url});
                 }
             });
             
