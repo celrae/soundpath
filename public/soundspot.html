@@ -6,7 +6,7 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta charset="utf-8">
   <title>Soundspot</title>
-  <meta name="description" content="Soundspot is a mobile web app that lets you discover public media stories about your current location.">
+  <meta name="description" content="Soundspot is a mobile web app that helps you discover local stories from NPR and other public media sources.">
   <meta name="author" content="Celeste LeCompte and Luke Van Horn">
 
   <!-- Mobile Specific Metas
@@ -31,7 +31,8 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
-<!-- Javascript -->
+  <!-- Javascript 
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="js/location.js"></script>
   <script type="text/javascript" src="js/abbreviations.js"></script> 
@@ -238,9 +239,8 @@
         <div id="currentLocation" style="display: display">
           <h3>Soundspot</h3>
           <h4>Hear what's here.</h4>
-          <p class="spot-sound"><a onclick="javascript:getLocation();"><img src="images/radar.png"/ width="175px"></a></p>
-          <p>Push to find public media stories about your current location.</p> 
-          <p><a onclick='javascript:newSearch();'>(Or, search in a different spot.)</a>
+           <p class="spot-sound"><img src="images/radar.png"/ width="175px"></p>
+          <p class="spot-sound"><a class="button button-primary" onclick="javascript:getLocation();">Discover local stories.</a></p> 
         </div>
 
 
@@ -249,15 +249,15 @@
         <div id="spotsearch" style="display: none">
           <h3>Soundspot</h3>
           <h4>Hear what's <em>there</em>.</h4>
-          <p>Find public media stories about <input type="text" class="form-control" id="pmpquery" placeholder="a different location." value="">.</p> 
+          <p>Discover local stories from <input type="text" class="form-control" id="pmpquery" placeholder="a different location." value="">.</p> 
           <p class="spot-sound"><a onclick="javascript:searchPMP();"><img src="images/radar.png"/ width="175px"></a></p>
         </div>
       </div>     
 
 <!-- When results are found, here's the audio player -->
-    <div id="pmpTree">
+    <div>
     <table id="nowPlaying" style="display: none" cellspacing="5">
-      <th><tr><td id="listenLocation"></td></tr></th>
+      <thead><tr><td id="listenLocation"></td></tr></thead>
       <tbody>
         <tr>
           <td>
@@ -270,16 +270,12 @@
             <p style="align: right"><span  id="currentTime"></span><span id="duration"></span></p>
             <p><a class="button" id="goBack" onclick="javascript:document.getElementById('player').currentTime = document.getElementById('player').currentTime - 10"><i class="fa fa-backward"></i> 10s</font></a> 
             <a class="button" id="playpause" onclick="javascript:playtoggle();"><i class="fa fa-play"></i></a>
-            <a class="button" id="goBack" onclick="javascript:document.getElementById('player').currentTime = document.getElementById('player').currentTime + 30">30s <i class="fa fa-forward"></i></a>
-            <a class="button" id="skip" onclick="javascript:skipToNextTrack();"><i class="fa fa-step-forward"></i></a></p>
-<!--            <p><strong>Coming up next:</strong><br><span id="nextTrack"></span>. -->
+            <a class="button" id="goBack" onclick="javascript:document.getElementById('player').currentTime = document.getElementById('player').currentTime + 10">10s <i class="fa fa-forward"></i></a>
+<!--             <a class="button" id="skip" onclick="javascript:skipToNextTrack();"><i class="fa fa-step-forward"></i></a> --></p>
+           <p><strong>Up next:</strong><br><a id="nextTrack" onclick="javascript:skipToNextTrack();"></a>.
             <p><em>There are <span id="queueLength"></span> tracks in the playlist.</p></em>
-          </td>
-        </tr>
-        <tr>
-          <td>    
-            <p><em>Not the location you wanted? <a onclick='javascript:newSearch();'>Try a different search.</a></p>
-            <p><a onclick="javascript:window.location.reload();">Start over.</a>
+            <p></p>   
+            <p><a onclick="javascript:window.location.reload();">Start over</a> | <a onclick='javascript:newSearch();'>Search for a spot</a>
             </p>
           </td>
         </tr>
@@ -289,8 +285,7 @@
   </div>
 
 <footer>
-<hr>
-<p><a href="/about.html">About</a> | <a href="https://github.com/celrae/soundpath">GitHub</a></p>  
+<p><a href="/about.html">About</a> | <a href="https://github.com/celrae/soundpath">GitHub</a> </p> 
 </footer>
 
 

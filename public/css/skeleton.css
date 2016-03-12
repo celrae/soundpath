@@ -157,18 +157,20 @@ p {
 p.spot-sound {
   text-align: center;
 }
-p.spot-sound img:hover {
+/*p.spot-sound img:hover {
     border-radius:50%;
     background-color: orange; 
-}
+}*/
 
 /* Links
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 a {
   color: #1EAEDB; }
-a:hover img {
+a:hover {
   color: #0FA0CE; 
-  text-decoration: none}
+  text-decoration: none;
+  cursor: pointer;
+}
 
 
 /* Buttons
